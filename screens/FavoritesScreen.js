@@ -1,19 +1,24 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
-  View,
 } from 'react-native';
 
-// Constants imports
+// Components imports
+import MealList from '../components/MealList';
 
+// Constants imports
 import DefaultStyles from '../constants/DefaultStyle';
 
-const FavoritesScreen = () => {
+// Data imports
+import { MEALS } from '../data/dummy-data';
+
+const FavoritesScreen = (props) => {
+  const favMeals = MEALS.filter(meal => meal.id === 'm1' || meal.id === 'm2' );
   return (
-    <View style={DefaultStyles.screen}><Text>OI!</Text></View>
+    <MealList meals={favMeals} onPress={(id) => {props.navigation.navigate({routeName:'MealDetail', params:{mealId: id}})} }/>
   );
 };
+
 
 const styles = StyleSheet.create({
 });

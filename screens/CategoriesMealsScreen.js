@@ -6,25 +6,23 @@ import {
   StyleSheet,
   Text,
   View,
+  FlatList,
 } from 'react-native';
 
-// Constants imports
-import DefaultStyles from '../constants/DefaultStyle';
+// Components imports
+import MealList from '../components/MealList';
+
 
 // Data imports
-import { CATEGORIES } from '../data/dummy-data';
-
+import { CATEGORIES, MEALS } from '../data/dummy-data';
 
 const CategoriesMealsScreen = (props) => {
   const categoryId = props.navigation.getParam('categoryId');
-  const category = CATEGORIES.find(element => element.id === categoryId);
-
-  
+  const meals = MEALS.filter(meal => meal.categoryIds.indexOf(categoryId) >= 0);
   
   return (
-    <View style={DefaultStyles.screen}>
-      <Button title='GO TO MEAL DETAIL' onPress={() => {props.navigation.navigate({routeName: "MealDetail"})}}/>
-    </View>
+      
+    <MealList meals={meals} onPress={(id) => {props.navigation.navigate({routeName:'MealDetail', params:{mealId: id}})} }/>
   );
 };
 
@@ -41,7 +39,7 @@ CategoriesMealsScreen.navigationOptions = (navigationData) => {
 }
 
 const styles = StyleSheet.create({
- 
+  
 });
 
 export default CategoriesMealsScreen;

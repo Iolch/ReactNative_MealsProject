@@ -4,7 +4,7 @@ import 'react-native-gesture-handler';
 
 
 // if we install the package react-native-screens, it optmizes the navigation
-import {useScreens} from 'react-native-screens';
+import {enableScreens} from 'react-native-screens';
 
 import React from 'react';
 import {
@@ -20,7 +20,7 @@ import MealsNavigator from './navigation/MealsNavigation';
 import DefaultStyles from './constants/DefaultStyle';
 
 
-useScreens();
+enableScreens();
 const App = () => {
   return (
     <MealsNavigator/>

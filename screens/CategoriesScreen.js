@@ -40,6 +40,16 @@ const CategoriesScreen = (props) => {
   );
 };
 
+CategoriesScreen.navigationOptions = (navigationData) => {
+    return {
+      headerTitle: 'Meal Categories',
+      headerLeft: () => <Button title='menu' onPress={() => {navigationData.navigation.toggleDrawer()}}/>, 
+      headerStyle:{
+          backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
+      }
+    };
+};
+
 const styles = StyleSheet.create({
 });
 

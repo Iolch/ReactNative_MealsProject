@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   StyleSheet,
 } from 'react-native';
 
@@ -17,6 +18,13 @@ const FavoritesScreen = (props) => {
   return (
     <MealList meals={favMeals} onPress={(id) => {props.navigation.navigate({routeName:'MealDetail', params:{mealId: id}})} }/>
   );
+};
+
+FavoritesScreen.navigationOptions = (navigationData) => {
+  return{
+      headerTitle: "Favorites <3",
+      headerLeft: () => <Button title='menu' onPress={() => {navigationData.navigation.toggleDrawer()}}/>, 
+  };
 };
 
 

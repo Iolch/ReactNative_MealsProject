@@ -1,3 +1,6 @@
+import React from 'react';
+import {Button} from 'react-native';
+
 //special packages needed
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -10,53 +13,55 @@ import {Platform} from 'react-native';
 //import constants
 import Colors from '../constants/Colors';
 
-
 //import screens
 import CategoriesScreen from '../screens/CategoriesScreen';
 import CategoriesMealsScreen from '../screens/CategoriesMealsScreen';
 import MealsDetailScreen from '../screens/MealsDetailScreen';
-import FavoritesScreen from '../screens/FavoritesScreen'
+import FavoritesScreen from '../screens/FavoritesScreen';
+import FilterScreen from '../screens/FilterScreen';
+
 
 const MealsNavigator = createStackNavigator({
-    Categories: {  //since this is the first, it will read as the inital route
-        screen:CategoriesScreen,
-        navigationOptions: {
-            headerTitle: 'Meal Categories',
-            headerStyle:{
-                backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
-                // headerTintColor: Platform.OS === 'android' ? '' : Colors.primary
-            }
-        }
-    }, 
+    Categories: CategoriesScreen,
     CategoryMeals: CategoriesMealsScreen,
     MealDetail: MealsDetailScreen
 },{
     defaultNavigationOptions:{
         headerStyle:{
             backgroundColor: Platform.OS === 'android' ? Colors.secondary : '',
-            // headerTintColor: Platform.OS === 'android' ? 'black' : Colors.secondary
-        }
+        },
+        headerTintColor: Platform.OS === 'android' ? 'black' : Colors.secondary
     },
 });
 
 const FavoritesNavigator = createStackNavigator({
-    Favorites:{screen:FavoritesScreen,
-        navigationOptions:{
-            headerTitle: "Favorites <3"
-        }
-    },
+    Favorites:FavoritesScreen,
     MealsDetail:{screen: MealsDetailScreen}
 },{
     defaultNavigationOptions:{
         headerStyle:{
             backgroundColor: Platform.OS === 'android' ? Colors.secondary : '',
-            // headerTintColor: Platform.OS === 'android' ? 'white' : Colors.blue
-        }
+        },
+        headerTintColor: Platform.OS === 'android' ? 'white' : Colors.secondary
     }
 });
 
+const FilterNavigator = createStackNavigator(
+    {
+        Filter: FilterScreen
+    },
+    {
+        defaultNavigationOptions:{
+            headerStyle:{
+                backgroundColor: Platform.OS === 'android' ? Colors.secondary : '',
+            },
+            headerTintColor: Platform.OS === 'android' ? 'black' : Colors.secondary
+            
+        }
+    }
+);
 const MealsFavTaNavigator = createBottomTabNavigator({
-    Meals: {screen: MealsNavigator, navigationOptions:{}},
+    Meals: {screen: MealsNavigator},
     Favorites: {screen: FavoritesNavigator, navigationOptions:{tabBarLabel:'Favorites!'}}
 }, {
     tabBarOptions:{
@@ -64,4 +69,20 @@ const MealsFavTaNavigator = createBottomTabNavigator({
     }
 });
 
-export default createAppContainer(MealsFavTaNavigator);
+const MainNavigator = createDrawerNavigator(
+    {
+        MealsFavs: {
+            screen: MealsFavTaNavigator,
+            navigationOptions:{
+                drawerLabel: 'Meals',
+            },
+        },
+        Filters: FilterNavigator,
+    },{
+        contentOptions:{
+            activeTintColor: Colors.secondary,
+            
+        }
+    }
+);
+export default createAppContainer(MainNavigator);

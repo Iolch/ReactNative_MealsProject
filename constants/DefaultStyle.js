@@ -12,6 +12,12 @@ import Colors from '../constants/Colors';
         alignItems: "center",
         backgroundColor: Colors.light
     },
+    full:{
+      flex: 1,
+      padding:10,
+      justifyContent:"center",
+      alignItems: "center",
+    },
     textHighlight:{
       color: Colors.primary,
       fontWeight:'bold',

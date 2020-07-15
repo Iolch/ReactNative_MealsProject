@@ -1,7 +1,9 @@
 import React from 'react';
 import {
   Button,
+  Text,
   StyleSheet,
+  View,
 } from 'react-native';
 
 // Components imports
@@ -10,14 +12,16 @@ import MealList from '../components/MealList';
 // Constants imports
 import DefaultStyles from '../constants/DefaultStyle';
 
-// Data imports
-import { MEALS } from '../data/dummy-data';
+// redux
+import {useSelector} from 'react-redux';
 
 const FavoritesScreen = (props) => {
-  const favMeals = MEALS.filter(meal => meal.id === 'm1' || meal.id === 'm2' );
-  return (
-    <MealList meals={favMeals} onPress={(id) => {props.navigation.navigate({routeName:'MealDetail', params:{mealId: id}})} }/>
-  );
+
+  const favMeals = useSelector(state => state.mealsReducer.favoriteMeals);
+  if(favMeals.length === 0 || isNaN(favMeals.length)){
+    return (<View style={DefaultStyles.full}><Text>No favorites!</Text></View>);
+  }  
+  return (<MealList meals={favMeals} onPress={(id, title) => {props.navigation.navigate({routeName:'MealDetail', params:{mealId: id, mealTitle: title}})} }/>  );
 };
 
 FavoritesScreen.navigationOptions = (navigationData) => {

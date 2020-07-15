@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,12 +14,28 @@ import {
 // Constants imports
 import DefaultStyles from '../constants/DefaultStyle';
 
-// Data imports
-import { MEALS } from '../data/dummy-data';
+// redux
+import {useSelector, useDispatch} from 'react-redux';
+import { toggleFavorite } from '../store/actions/meals';
 
 const MealsDetailScreen = (props) => {
+  const navigation = props.navigation;
   const mealId = props.navigation.getParam('mealId');
-  const meal = MEALS.find((element) => element.id === mealId);
+  const availableMeals = useSelector(state => state.mealsReducer.meals);
+  const meal = availableMeals.find((element) => element.id === mealId);
+
+  const dispatch = useDispatch(); // dispatch is kind of a trigger event
+  const toggleFavoriteHandler = useCallback(  // using callback guarantee that it will only be re-created when mealId changes
+    () => {                                   // so it wouldnt have a render loop
+      dispatch(toggleFavorite(mealId));
+      
+    },[dispatch, mealId]
+  );
+
+  useEffect(() => {
+    navigation.setParams({toggleFav: toggleFavoriteHandler});
+  }, [toggleFavoriteHandler]);
+
   return (
     <View style={DefaultStyles.screen}>
       <Text>{meal.title}</Text>
@@ -28,11 +44,11 @@ const MealsDetailScreen = (props) => {
 };
 
 MealsDetailScreen.navigationOptions = (navigationData) => {
-  const mealId = navigationData.navigation.getParam('mealId');
-  const meal = MEALS.find((element) => element.id === mealId);
+  const mealTitle = navigationData.navigation.getParam('mealTitle');
+
   return{
-    headerTitle: meal.title,
-    headerRight: () => <Button title="fav" onPress={()=>{}}/>
+    headerTitle: mealTitle,
+    headerRight: () => <Button title="fav" onPress={navigationData.navigation.getParam('toggleFav')}/>
   };
 };
 

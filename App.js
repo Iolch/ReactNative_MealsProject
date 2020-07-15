@@ -15,15 +15,30 @@ import {
 
 import MealsNavigator from './navigation/MealsNavigation';
 
+// using store
+import {createStore, combineReducers} from 'redux';
+import MealsReducer from './store/reducers/meals';
+import {Provider} from 'react-redux';
+
 // Constants imports
 
 import DefaultStyles from './constants/DefaultStyle';
 
 
 enableScreens();
+
+const rootReducer = combineReducers({
+  mealsReducer: MealsReducer
+});
+const store = createStore(rootReducer);
+
 const App = () => {
   return (
-    <MealsNavigator/>
+    <Provider store ={store}> 
+
+      <MealsNavigator/>
+
+    </Provider>
   );
 };
 

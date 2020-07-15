@@ -20,7 +20,7 @@ const MealList = (props) => {
           complexity={itemData.item.complexity}
           affordability={itemData.item.affordability}
           image={itemData.item.imageUrl}
-          onPress={() => {props.onPress(itemData.item.id)}}
+          onPress={() => {props.onPress(itemData.item.id, itemData.item.title)}}
           />
         );
     }

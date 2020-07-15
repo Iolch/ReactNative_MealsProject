@@ -21,7 +21,7 @@ const FavoritesScreen = (props) => {
   if(favMeals.length === 0 || isNaN(favMeals.length)){
     return (<View style={DefaultStyles.full}><Text>No favorites!</Text></View>);
   }  
-  return (<MealList meals={favMeals} onPress={(id, title) => {props.navigation.navigate({routeName:'MealDetail', params:{mealId: id, mealTitle: title}})} }/>  );
+  return (<MealList meals={favMeals} onPress={(id, title) => {props.navigation.navigate({routeName:'MealsFavoriteDetail', params:{mealId: id, mealTitle: title}})} }/>  );
 };
 
 FavoritesScreen.navigationOptions = (navigationData) => {
